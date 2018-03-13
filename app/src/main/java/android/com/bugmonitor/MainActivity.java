@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.xiaomi.mipush.sdk.MiPushClient;
+
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     public static final int REQUEST_CODE = 0;
@@ -22,6 +24,9 @@ public class MainActivity extends BaseActivity {
                 ,Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ,Manifest.permission.ACCESS_WIFI_STATE},REQUEST_CODE);
         initView();
+        String regId = MiPushClient.getRegId(this);
+        Log.e(TAG, "---->>regId: "+regId );
+
     }
 
     @Override

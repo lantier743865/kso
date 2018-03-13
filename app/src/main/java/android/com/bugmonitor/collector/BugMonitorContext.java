@@ -2,6 +2,7 @@ package android.com.bugmonitor.collector;
 
 import android.app.Activity;
 import android.com.bugmonitor.crash.CrashInfo;
+import android.com.bugmonitor.queue.StepQueueHelper;
 import android.com.bugmonitor.util.CPUUtil;
 import android.com.bugmonitor.util.MemoryUtil;
 import android.com.bugmonitor.util.NetUtil;
@@ -94,17 +95,20 @@ public class BugMonitorContext implements CrashInterceptor{
                 .setIsRoot(rooted)
                 .flushString()
                 .toString();
-        saveLogToSDCard(s,dirName);
+        saveLogToSDCard(s,"crashInfo");
+        String step = StepQueueHelper.flushString();
+        Log.e(TAG, "---->>step: "+step );
+        saveLogToSDCard(step,"step");
         Log.e(TAG, s );
     }
 
-    private void saveLogToSDCard(String s, String dirName) {
+    private void saveLogToSDCard(String s, String fileName) {
         String path = Environment.getExternalStorageDirectory() + File.separator + "crash" + File.separator + dirName;
         File filePath = new File(path);
         if (!filePath.exists()) {
             filePath.mkdirs();
         }
-        File file = new File(path + File.separator + dirName + ".log");
+        File file = new File(path + File.separator + fileName + ".log");
         if (!file.exists()) {
             try {
                 file.createNewFile();

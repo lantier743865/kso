@@ -1,6 +1,7 @@
 package android.com.bugmonitor.event;
 
 import android.app.Activity;
+import android.com.bugmonitor.queue.StepQueueHelper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MonitorEvent implements IEvent {
             if(this.lastX == currentX && this.lastY == currentY) {
                 View var5 = this.getView(activity.getWindow().getDecorView(), currentX, currentY);
                 Log.e(TAG, "---->>var5: "+var5 );
+                StepQueueHelper.enqueueStep(activity,var5);
 //                if(this.jf != null) {
 //                    this.jf.b(var5);
 //                }

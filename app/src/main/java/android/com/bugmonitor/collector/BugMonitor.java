@@ -3,10 +3,15 @@ package android.com.bugmonitor.collector;
 import android.app.Activity;
 import android.com.bugmonitor.crash.CrashHandler;
 import android.com.bugmonitor.event.MonitorEvent;
+import android.com.bugmonitor.queue.SequenceQueue;
+import android.com.bugmonitor.queue.StepQueueHelper;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by wuxiaolong on 2018/3/9.
@@ -15,6 +20,9 @@ import android.view.View;
 public class BugMonitor {
     private static final String TAG = "BugMonitor";
     public static Context mContext;
+    public static final String RESUME = "onResume";
+    public static final String PAUSE = "onPause";
+
 
     public static void init(Context context) {
         mContext = context;
@@ -31,10 +39,11 @@ public class BugMonitor {
         MonitorEvent.getInstance().onDispatchTouchEvent(activity,event);
     }
     public static void onResume(Activity activity) {
-        Log.e(TAG, "---->>onResume: "+activity.getClass().getName() );
+        StepQueueHelper.enqueueStep(activity,RESUME);
 
     }
     public static void onPause(Activity activity) {
-        Log.e(TAG, "---->>onPause: "+activity.getClass().getName());
+        StepQueueHelper.enqueueStep(activity,PAUSE);
     }
+
 }
